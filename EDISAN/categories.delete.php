@@ -1,15 +1,12 @@
 <?php
-
 include('dbconnect.php');
 
 try {
-    $id = $_POST['id'];  
-    $name = $_POST['name']; 
+    $id = $_POST['id']; 
 
-    $query = "UPDATE sample SET category_name = :name WHERE category_id = :id";
+    $query = "DELETE FROM sample WHERE category_id = :id";
     $statement = $connection->prepare($query);
     $statement->bindParam(':id', $id);
-    $statement->bindParam(':name', $name);
     $result = $statement->execute();
 
     if ($result) {
@@ -20,3 +17,4 @@ try {
 } catch (PDOException $th) {
     echo json_encode(['res' => 'error', 'message' => $th->getMessage()]);
 }
+?>
