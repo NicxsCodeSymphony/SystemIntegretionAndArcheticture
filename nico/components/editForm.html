@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Category</title>
+</head>
+<body>
+    <h1>Edit Category</h1>
+    <form id="editForm" enctype="multipart/form-data">
+
+        <input type="hidden" id="product_id" name="category_id">
+
+        <label for="image">Image:</label><br>
+        <img id="categoryImage" src="" alt="Category Image" style="max-width: 200px;"><br>
+        <input type="file" id="image" name="photo"><br><br>
+
+        <label for="categoryName">Category Name:</label>
+        <input type="text" id="categoryName" name="name"><br><br>
+        
+        <label for="categoryCategory">Category:</label>
+        <input type="text" id="categoryCategory" name="category"><br><br>
+        
+        <label for="categoryQuantity">Quantity:</label>
+        <input type="text" id="categoryQuantity" name="quantity"><br><br>
+        
+        <button type="submit" id="saveEdits">Save Changes</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../main.js"></script>
+
+    <script>
+        // Function to parse the query string
+        function getQueryStringValue(key) {
+            return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        }
+
+        // Set the input values from the query string
+        let photoUrl = getQueryStringValue("photo");
+        let cleanedPhotoUrl = photoUrl.replace("components%images%", "");
+        document.getElementById("categoryImage").src = cleanedPhotoUrl;
+        document.getElementById("categoryName").value = getQueryStringValue("name");
+        document.getElementById("categoryCategory").value = getQueryStringValue("category_id");
+        document.getElementById("categoryQuantity").value = getQueryStringValue("quantity");
+        document.getElementById("product_id").value = getQueryStringValue("id");
+    </script>
+</body>
+</html>
