@@ -1,0 +1,177 @@
+@import 'index';
+
+.page-container{
+    @include sizeRatio(auto, 100%);
+    background-color: $darker;
+    font-family: $primary-font;
+
+    .page-header{
+        @include sizeRatio(7vh, 100%);
+        @include display(flex, space-between, center);
+        background-color: $dark-color;
+        padding: 0 16vw;
+        font-size: 20px;
+        position: fixed;
+        top: 0;
+
+
+        .logo{
+            font-family: $title-font;
+            span{
+                color: $darker;
+                
+            }
+        }
+
+        .menu{
+            font-family: $secondary-font;
+            font-size: 15px;
+        
+            li{
+                display: inline;
+                margin: 0 50px;
+
+                a{
+                    color: $text-color;
+                }
+            }
+        }
+
+        .name{
+            font-size: 15px;
+            font-family: $secondary-font;
+            text-transform: capitalize;
+        }
+    }
+
+    .content{
+        @include sizeRatio(1000vh, 100%);
+        padding: 30px 14vw 0px 14vw;
+        display: grid;
+        grid-template-columns: 2fr 4fr 2fr;
+        margin-top: 55px;
+        border:1px #000 solid;
+
+
+        .feeds{
+            height: auto;
+            overflow: hidden;
+
+            .post{
+                @include sizeRatio(13vh, 100%);
+                background-color: $dark-color;
+                border-radius: 10px;
+
+                .post-heading{
+                    @include display(flex, none, center);
+                    @include sizeRatio(8vh, 100%);
+                    margin: 0 20px;
+
+                    h4{
+                        font-weight: 200;
+                        font-size: 15px;
+                    }
+                }
+
+                hr{
+                    border: 1px $darker solid;
+                }
+
+                .post-footer{
+                    @include display(flex, none, center);
+                    @include sizeRatio(5vh, 100%);
+                    margin: 0 20px;
+
+                    p{
+                        margin-left: 6px;
+                        font-size: 15px;
+                    }
+                }
+               
+              
+            }
+
+            .feeds-content{
+                @include sizeRatio(87vh, 100%);
+                background-color: $dark-color;
+                margin-top: 15px;
+                border-radius: 10px;
+                padding: 30px;
+
+                .poster-image{
+                    @include display(flex, none, center);
+
+                    img{
+                        @include sizeRatio(60px, 60px);
+                        border-radius: 50%;
+                        margin-right: 15px;
+                    }
+
+                    .poster-info{
+
+                        .username{
+                            margin-bottom: 4px;
+                            font-size: 13px;
+                            color: $darker;
+                        }
+
+                        .poster-name{
+                            span{
+                                margin-left: 6px;
+                                font-size: 14px;
+                                color: $darker;
+                            }
+                        }
+                    }
+                }
+
+                .caption{
+                    margin-top: 20px;
+                    font-size: 15px;
+                }
+
+                .post-image{
+                    margin-top: 20px;
+                    img{
+                        @include sizeRatio(50vh, 100%);
+                        border-radius: 15px;
+                    }
+                }
+
+                .interaction{
+                    @include sizeRatio(4vh, 100%);
+                    margin-top: 20px;
+
+                    i{
+                        font-size: 20px;
+                        margin-right: 20px;
+                    }
+                }
+
+                .comment{
+                    @include display(flex, none, center);
+                    @include sizeRatio(10vh, 100%);
+
+                    input{
+                        border: none;
+                        padding: 13px;
+                        width: 100%;
+                        border-radius: 10px;
+                        background-color: $darker;
+                        color: $light-color;
+                        font-size: 15px;
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+        
+    }
+}
+
+.avatar{
+    @include sizeRatio(50px, 50px);
+    border: 1px #000 solid;
+    border-radius: 50%;
+    margin-right: 10px;
+}

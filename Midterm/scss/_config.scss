@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+
+$primary-font: 'Inter';
+$secondary-font: 'Poppins';
+$title-font: 'Pacifico';
+
+$light-color: #fafffb;
+$dark-color: #e5feee;
+$darker: #79a185;
+$text-color: #0b161b;
+$light-text-color: #9c9e9d;
+$button-color: #273238;
+
+@mixin display($display, $justify, $align){
+    display: $display;
+    justify-content: $justify;
+    align-items: $align;
+} 
+
+
+
+@mixin sizeRatio($height, $width){
+    height: $height;
+    width: $width;
+}
+
+
+
+li{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+}
