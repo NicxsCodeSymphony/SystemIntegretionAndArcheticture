@@ -68,14 +68,18 @@ $(document).ready(function() {
     $.ajax({
         url: "php/logout.php",
         type: "POST",
-        success: function() {
-            localStorage.removeItem("name");
-            window.location.href = "index.html";
+        success: function(data) {
+            let result = JSON.parse(data);
+            if (result.res === "success") {
+                localStorage.removeItem("name");
+                window.location.href = "index.html";
+            } else {
+                alert(result.message);
+            }
         },
         error: function() {
             alert("Error logging out.");
         }
     });
 });
-
 
