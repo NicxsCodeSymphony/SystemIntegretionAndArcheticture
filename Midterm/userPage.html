@@ -62,9 +62,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="js/main.js"></script>
     <script>
-         $(document).ready(function() {
+         $(document).ready(function(e) {
             var name = localStorage.getItem("name");
-            var username = localStorage.getItem("username");
             if (!name) {
                 window.location.href = "index.html"; 
             } else {
@@ -72,11 +71,6 @@
                 document.getElementById("name").textContent = firstName;
                 document.getElementById("anotherName").textContent = firstName;
                
-            }
-
-            if(username){
-                var profileLink = "profile.html?username=" + username;
-                document.querySelector('a[href="profile.html"]').setAttribute('href', profileLink);
             }
         });
     </script>

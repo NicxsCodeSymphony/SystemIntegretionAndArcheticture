@@ -1,0 +1,138 @@
+@import 'page';
+
+.profile-container{
+    background-color: $light-color;
+    font-family: $primary-font;
+
+    .profile-header{
+        @include sizeRatio(7vh, 100%);
+        @include display(flex, space-between, center);
+        background-color: $dark-color;
+        padding: 0 16vw;
+        font-size: 20px;
+        position: fixed;
+        top: 0;
+
+
+        .logo{
+            font-family: $title-font;
+            span{
+                color: $darker;
+                
+            }
+        }
+
+        .menu{
+            font-family: $secondary-font;
+            font-size: 15px;
+        
+            li{
+                display: inline;
+                margin: 0 50px;
+
+                a{
+                    color: $text-color;
+                }
+            }
+        }
+
+        .name{
+            font-size: 15px;
+            font-family: $secondary-font;
+            text-transform: capitalize;
+        }
+    }
+}
+
+.profile-grid{
+   @include sizeRatio(98vh, 100%);
+   display: grid;
+   grid-template-columns: 2fr 5fr;
+   background-color: $light-color;
+   padding: 0 16vw;
+   gap: 20px;
+   
+
+   & > div{
+    border: 1px #000 solid;
+    border-radius: 10px;
+    margin-top: 100px;
+   }
+
+   .profile{
+    border: none;
+    position: relative;
+
+    &-info{
+        margin-left: 30px;
+        margin-top: 20px;
+       }
+
+       h1{
+        font-size: 25px;
+       }
+
+       h2{
+        font-size: 18px;
+        font-weight: lighter;
+        color: #292929;
+       }
+
+       &-edit{
+        padding: 8px;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px #000 solid;
+        background: #F0F3F6;
+        margin: 20px 0;
+       }
+
+       &-inline{
+        margin-bottom: 20px;
+       }
+
+       p{
+        font-size: 14px;
+        margin-top: 5px;
+       }
+
+       .edit-modal{
+        @include sizeRatio(100%, 100%);
+        position: absolute;
+        top: 0;
+        background: $light-color;
+        display: none;
+       }
+
+       &-update{
+        margin-top: 20px;
+
+        input{
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px #000 solid;
+        }
+
+        select{
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px #000 solid;
+        }
+
+        
+    }
+   }
+
+   
+
+   .profile-image{
+    @include image("../assets/sample.png");
+    @include sizeRatio(300px, 300px);
+    border: 1px #000 solid;
+   margin: 0 auto;
+    border-radius: 50%;
+   }
+}
+

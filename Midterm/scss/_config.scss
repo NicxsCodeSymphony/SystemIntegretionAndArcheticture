@@ -28,6 +28,13 @@ $button-color: #273238;
     width: $width;
 }
 
+@mixin image($url){
+    background-image: url($url);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 
 li{

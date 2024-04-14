@@ -14,7 +14,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = mysqli_fetch_assoc($result);
             $_SESSION['username'] = $username;
             $_SESSION['name'] = $row['name']; 
-            echo json_encode(array("res" => "success", "name" => $row['name'], "username" => $row['username']));
+            echo json_encode(array(
+                'res' => 'success',
+                'id' => $row['id'],
+                'username' => $username,
+                'password' => $password,
+                'name' => $row['name'],
+                'gender' => $row['gender'],
+                'location' => $row['location'],
+                'civilStatus' => $row['civilStatus'],
+                'birthdate' => $row['birthdate']
+            ));
             exit;
         } else {
             echo json_encode(array("res" => "error", "message" => "Invalid username or password."));
