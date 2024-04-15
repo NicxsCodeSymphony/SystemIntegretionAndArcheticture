@@ -50,7 +50,6 @@
         display: grid;
         grid-template-columns: 2fr 4fr 2fr;
         margin-top: 55px;
-        border:1px #000 solid;
 
 
         .feeds{
@@ -177,15 +176,14 @@
 }
 
 
-@media only screen and (max-width: 1366px){
-    .page-container{
-        .content{
-            .feeds{
-                .feeds-content{
-                    @include sizeRatio(100vh, 100%);
-                }
+
+.page-container{
+    .content{
+        .feeds{
+            .feeds-content{
+                @include sizeRatio(100vh, 100%);
             }
-            
         }
+        
     }
 }

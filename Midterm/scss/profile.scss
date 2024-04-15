@@ -1,5 +1,4 @@
 @import 'page';
-
 .profile-container{
     background-color: $light-color;
     font-family: $primary-font;
@@ -54,7 +53,7 @@
    
 
    & > div{
-    border: 1px #000 solid;
+    border: 1px #c0c0c0 solid;
     border-radius: 10px;
     margin-top: 100px;
    }
