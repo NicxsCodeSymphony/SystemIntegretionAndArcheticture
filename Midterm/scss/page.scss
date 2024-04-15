@@ -175,3 +175,17 @@
     border-radius: 50%;
     margin-right: 10px;
 }
+
+
+@media only screen and (max-width: 1366px){
+    .page-container{
+        .content{
+            .feeds{
+                .feeds-content{
+                    @include sizeRatio(100vh, 100%);
+                }
+            }
+            
+        }
+    }
+}

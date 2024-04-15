@@ -136,3 +136,57 @@
    }
 }
 
+@media only screen and (max-width: 1366px){
+    .profile-grid{
+        
+        .profile{
+         overflow-x: hidden;
+     
+         &-info{
+             margin-left: 30px;
+             margin-top: 20px;
+            }
+     
+            h1{
+             font-size: 20px;
+            }
+     
+            h2{
+             font-size: 14px;
+            }
+     
+            &-edit{
+             padding: 8px;
+             width: 100%;
+             border-radius: 5px;
+             border: 1px #000 solid;
+             background: #F0F3F6;
+             margin: 15px 0;
+            }
+     
+            &-inline{
+               font-size: 14px;
+            }
+     
+            p{
+             font-size: 12px;
+            }
+     
+            &-update{
+             margin-top: 10px;
+             font-size: 12px;
+     
+             input{
+                 padding: 5px;
+                font-size: 12px;
+             }
+         }
+        }
+        .profile-image{
+            @include sizeRatio(250px, 250px);
+            border: 1px #000 solid;
+           }
+    }
+
+   
+} 
