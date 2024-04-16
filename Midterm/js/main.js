@@ -180,6 +180,7 @@ function addFriend(personId) {
             let result = JSON.parse(data);
             if (result.res === "success") {
                 alert("Friend added successfully.");
+                window.location.reload();
             } else {
                 alert(result.message);
             }
