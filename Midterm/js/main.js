@@ -7,13 +7,13 @@ $(document).ready(function() {
             let people = JSON.parse(data);
             let template = document.querySelector('.people-card');
             let container = document.querySelector('.people');
-
+    
             people.forEach(person => {
                 let clone = template.content.cloneNode(true);
                 clone.querySelector('.people-template-name').textContent = person.name;
                 clone.querySelector('.people-template-username').textContent = "@" + person.username;
-                // You can add more fields here as needed
-
+                clone.querySelector('.btn button:first-of-type').setAttribute('data-person-id', person.id);
+    
                 container.appendChild(clone);
             });
         },
@@ -21,6 +21,7 @@ $(document).ready(function() {
             alert("Error fetching people data.");
         }
     });
+    
 
     $("#registrationForm").submit(function(event) {
         event.preventDefault();
@@ -163,3 +164,28 @@ document.querySelector('#editProfile').addEventListener('submit', function(event
         }
     });
 });
+
+
+// ADD FRIENDS
+
+function addFriend(personId) {
+    $.ajax({
+        url: "php/addFriend.php",
+        type: "POST",
+        data: {
+            personId: personId,
+            userId: localStorage.getItem("id")
+        },
+        success: function(data) {
+            let result = JSON.parse(data);
+            if (result.res === "success") {
+                alert("Friend added successfully.");
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function() {
+            alert("Error adding friend.");
+        }
+    });
+}

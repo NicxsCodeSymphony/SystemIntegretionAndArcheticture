@@ -15,7 +15,7 @@
                 <ul>
                     <li><a href="userPage.html">Home</a></li>
                     <li><a href="profile.html">Profile</a></li>
-                    <li><a href="friends.html">Friends</a></li>
+                    <li><a href="friends.html">Find Friends</a></li>
                     <li><button id="logout">Logout</button></li>
                 </ul>
             </div>
@@ -42,7 +42,7 @@
                             <h4 class="people-template-username"></h4>
                     </div>
                     <div class="btn">
-                        <button>Add Friend</button>
+                        <button class="add-friend">Add Friend</button>
                         <button>Remove</button>
                       </div>
                     </div>
@@ -53,9 +53,17 @@
 
     <script>
          document.addEventListener('DOMContentLoaded', function() {
+            var id = localStorage.getItem("id");
             var name = localStorage.getItem("name");
             var firstName = name.split(" ").slice(0, -1).join(" ");
             document.getElementById("name").textContent = firstName;
+
+            document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('add-friend')) {
+            var personId = event.target.getAttribute('data-person-id');
+            addFriend(personId);
+        }
+    });
          })
     </script>
     

@@ -3,7 +3,10 @@ include "connection.php";
 session_start();
 
 $loggedInID = $_SESSION['id']; 
-$query = "SELECT * FROM accounts WHERE id != $loggedInID AND id NOT IN (SELECT friend_id FROM friends WHERE user_id = $loggedInID)";
+$query = "SELECT friends.friend_id, accounts.name 
+          FROM friends 
+          JOIN accounts ON friends.friend_id = accounts.id
+          WHERE friends.user_id = $loggedInID";
 $result = mysqli_query($conn, $query);
 
 $people = array();
@@ -15,5 +18,4 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 echo json_encode($people);
-
 ?>

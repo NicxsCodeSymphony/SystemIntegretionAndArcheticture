@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = mysqli_fetch_assoc($result);
             $_SESSION['username'] = $username;
             $_SESSION['name'] = $row['name']; 
+            $_SESSION['id'] = $row['id'];
             echo json_encode(array(
                 'res' => 'success',
                 'id' => $row['id'],
@@ -35,5 +36,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 }
-
 ?>

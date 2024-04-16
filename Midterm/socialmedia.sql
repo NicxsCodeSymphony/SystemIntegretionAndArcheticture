@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2024 at 05:50 PM
+-- Generation Time: Apr 16, 2024 at 07:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -44,9 +44,21 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `name`, `username`, `password`, `birthdate`, `gender`, `location`, `civilStatus`, `image`) VALUES
-(2, 'John Nico Edisan', 'nicxs_assassin', 'nicxsassassin', '2002-01-23', 'Male', 'Bungtod, Bogo City, Cebu', 'Single', ''),
-(3, 'Izzy Baliguat', 'izzy123', 'izzy123', '2004-03-08', 'Female', 'Mabini, Tajao, Toledo City, Cebu', 'Complicated', ''),
-(4, 'Avelline Jean Alegada', 'ave', 'ave', '2003-11-26', 'Female', 'Cabitoonan, Toledo City, Cebu', 'Single', '');
+(1, 'John Nico Edisan', 'nico', 'nico', '0000-00-00', '', '', '', ''),
+(2, 'Izzy Baliguat', 'izzy', 'izzy', '0000-00-00', '', '', '', ''),
+(3, 'Avelline Jane Alegada', 'ave', 'ave', '2003-11-26', 'Female', 'Cabitoonan, Toledo City, Cebu', 'In a Relationship', ''),
+(4, 'Dhaniel Malinao', 'da', 'da', '0000-00-00', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `friends`
+--
+
+CREATE TABLE `friends` (
+  `user_id` int(11) NOT NULL,
+  `friend_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -59,6 +71,13 @@ ALTER TABLE `accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `friends`
+--
+ALTER TABLE `friends`
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `friend_id` (`friend_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -67,6 +86,17 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `accounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `friends`
+--
+ALTER TABLE `friends`
+  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`id`),
+  ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `accounts` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -16,7 +16,7 @@
                 <ul>
                     <li><a href="userPage.html">Home</a></li>
                     <li><a href="profile.html">Profile</a></li>
-                    <li><a href="friends.html">Friends</a></li>
+                    <li><a href="friends.html">Find Friends</a></li>
                     <li><button id="logout">Logout</button></li>
                 </ul>
             </div>
@@ -24,8 +24,9 @@
         </div>
 
         <div class="content">
-            <div></div>
-
+            <div class="friend-section">
+            </div>
+            
             <div class="feeds">
                 <div class="post">
                     <div class="post-heading"><img src="" alt=""> <h4>What's on your mind, <span id="anotherName"></span>?</h4></div>
@@ -52,27 +53,57 @@
                 </div>
 
             </div>
-
-
             <div></div>
         </div>
 
     </div>
+
+    <template class="friendList">
+        <div class="friends">
+            <h4 class="friendsName"></h4>
+        </div>
+    </template>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="js/main.js"></script>
     <script>
-         $(document).ready(function(e) {
-            var name = localStorage.getItem("name");
-            if (!name) {
-                window.location.href = "index.html"; 
-            } else {
-                var firstName = name.split(" ").slice(0, -1).join(" ");
-                document.getElementById("name").textContent = firstName;
-                document.getElementById("anotherName").textContent = firstName;
-               
-            }
-        });
+     $(document).ready(function() {
+    var id = localStorage.getItem("id");
+    var name = localStorage.getItem("name");
+    if (!name) {    
+        window.location.href = "index.html"; 
+    } else {
+        var firstName = name.split(" ").slice(0, -1).join(" ");
+        document.getElementById("name").textContent = firstName;
+        document.getElementById("anotherName").textContent = firstName;
+    }
+
+    $.ajax({
+        url: "php/fetchFriends.php",
+        type: "GET",
+        success: function(data) {
+            let people = JSON.parse(data);
+            let template = document.querySelector('.friendList');
+            let container = document.querySelector('.friend-section');
+
+            people.forEach(person => {
+                let clone = template.content.cloneNode(true);
+                clone.querySelector('.friendsName').textContent = person.name;
+                container.appendChild(clone);
+            });
+        },
+        error: function() {
+            alert("Error fetching people data.");
+        }
+    });
+
+});
+
+
+
+
+
+
     </script>
 </body>
 </html>
