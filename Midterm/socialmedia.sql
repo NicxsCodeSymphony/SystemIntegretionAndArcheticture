@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2024 at 07:14 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- Generation Time: Apr 17, 2024 at 05:24 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,10 +44,9 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `name`, `username`, `password`, `birthdate`, `gender`, `location`, `civilStatus`, `image`) VALUES
-(1, 'John Nico Edisan', 'nico', 'nico', '0000-00-00', '', '', '', ''),
-(2, 'Izzy Baliguat', 'izzy', 'izzy', '0000-00-00', '', '', '', ''),
-(3, 'Avelline Jane Alegada', 'ave', 'ave', '2003-11-26', 'Female', 'Cabitoonan, Toledo City, Cebu', 'In a Relationship', ''),
-(4, 'Dhaniel Malinao', 'da', 'da', '0000-00-00', '', '', '', '');
+(2, 'John Nico Edisan', 'nicxs_assassin', 'nicxsassassin', '2002-01-23', 'Male', 'Bungtod, Bogo City, Cebu', 'Complicated', ''),
+(3, 'Izzy Baliguat', 'izzy', 'izzy', '2004-03-08', 'Female', 'Mabini, Tajao, Toledo City, Cebu', 'Single', ''),
+(4, 'Avelline Alegada', 'ave', 'ave', '2003-11-26', 'Female', 'Cabitoonan, Toledo City, Cebu', 'Single', '');
 
 -- --------------------------------------------------------
 
@@ -59,6 +58,34 @@ CREATE TABLE `friends` (
   `user_id` int(11) NOT NULL,
   `friend_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `friends`
+--
+
+INSERT INTO `friends` (`user_id`, `friend_id`) VALUES
+(2, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post`
+--
+
+CREATE TABLE `post` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `caption` text NOT NULL,
+  `image` varchar(500) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `post`
+--
+
+INSERT INTO `post` (`id`, `user_id`, `caption`, `image`, `time`) VALUES
+(1, 2, 'Dhaniel Bayot, Pisot, serpente, animal, kolongo, kuwanggol', 'sample', '2024-04-17 03:23:02');
 
 --
 -- Indexes for dumped tables
@@ -74,8 +101,15 @@ ALTER TABLE `accounts`
 -- Indexes for table `friends`
 --
 ALTER TABLE `friends`
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `friend_id` (`friend_id`);
+  ADD KEY `friend_id` (`friend_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `post`
+--
+ALTER TABLE `post`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -85,7 +119,13 @@ ALTER TABLE `friends`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `post`
+--
+ALTER TABLE `post`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -95,8 +135,13 @@ ALTER TABLE `accounts`
 -- Constraints for table `friends`
 --
 ALTER TABLE `friends`
-  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`id`),
-  ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `accounts` (`id`);
+  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`id`);
+
+--
+-- Constraints for table `post`
+--
+ALTER TABLE `post`
+  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `accounts` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
