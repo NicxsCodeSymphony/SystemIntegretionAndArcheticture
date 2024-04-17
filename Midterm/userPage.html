@@ -35,21 +35,7 @@
                 </div>
 
                 <div class="feeds-content">
-                    <div class="poster-image">
-                        <img class="avatar" src="assets/nico.jpg" alt="">
-                        <div class="poster-info">
-                            <p class="username">@nicxs_assassin</p>
-                            <p class="poster-name">John Nico Edisan <span class="">* 1hr ago</span></p>
-                        </div>
-                    </div>
-                    <div class="caption"><p>me cheat? nah, you got it wrong, im the type of person that will watch videos while i wait for you to reply and will check every 2 minutes to see if you have sent me a message</p></div>
-                    <div class="post-image"><img src="assets/sample.png" alt=""></div>
-                    <div class="interaction"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-comment"></i></div>
-                    <hr>
-                    <div class="comment">
-                        <img class="avatar"  src="assets/nico.jpg" alt="">
-                        <input type="text" name="" id="" placeholder="Write your comment . . ." readonly/>
-                    </div>
+                    
                 </div>
 
             </div>
@@ -63,6 +49,50 @@
             <h4 class="friendsName"></h4>
         </div>
     </template>
+
+    <div class="add-post">
+        <div class="post-heading">
+            <h1>Create Post</h1>
+            <button id="close">X</button>
+        </div>
+        <div class="post-images">
+            <img class="avatar" src="assets/nico.jpg" alt="">
+            <div class="poster-infos">
+                <p class="usernames"></p>
+                <p class="poster-names"></p>
+            </div><br>
+        </div>
+        <div class="input-post">
+            <textarea id="get-text" placeholder="What's on your mind?"></textarea>
+        </div>
+        <div class="additional-post">
+            <h3>Add to your post</h3>
+        </div>
+
+       <div class="post-btn-container">
+        <button id="create-post">Create Post</button>
+       </div>
+    </div>
+
+    <template class="poster-template">
+        <div class="post-container">
+            <div class="poster-image">
+                <img class="avatar" src="assets/nico.jpg" alt="">
+                <div class="poster-info">
+                    <p class="username">@nicxs_assassin</p>
+                    <p class="poster-name"><span class="">* 1hr ago</span></p>
+                </div>
+            </div>
+            <div class="caption"><p class="display-caption"></p></div>
+            <!-- <div class="post-image"><img src="assets/sample.png" alt=""></div> -->
+            <div class="interaction"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-comment"></i></div>
+            <hr>
+            <div class="comment">
+                <img class="avatar"  src="assets/nico.jpg" alt="">
+                <input type="text" name="" id="" placeholder="Write your comment . . ." readonly/>
+            </div>
+        </div>
+    </template>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="js/main.js"></script>
@@ -70,12 +100,16 @@
      $(document).ready(function() {
     var id = localStorage.getItem("id");
     var name = localStorage.getItem("name");
+    var username = localStorage.getItem('username');
     if (!name) {    
         window.location.href = "index.html"; 
     } else {
         var firstName = name.split(" ").slice(0, -1).join(" ");
         document.getElementById("name").textContent = firstName;
         document.getElementById("anotherName").textContent = firstName;
+        document.querySelector(".poster-names").textContent = name;
+        document.querySelector(".usernames").textContent = "@" + username;
+
     }
 
     $.ajax({
@@ -97,7 +131,47 @@
         }
     });
 
+    document.getElementById("create-post").addEventListener('click', ()=>{
+        
+        $.ajax({
+        url: "php/post.php",
+        type: "POST",
+        data: {
+            id: id,
+            image: "sample",
+            caption: document.getElementById('get-text').value
+        },
+        success: function(data) {
+            let result = JSON.parse(data);
+            if (result.res === "success") {
+                alert("Post added successfully.");
+                window.location.reload();
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function() {
+            alert("Error adding friend.");
+        }
+    });
+
+
+
+})
+
+
+
 });
+
+document.querySelector('.post').addEventListener('click', ()=>{
+    document.querySelector('.add-post').style.display = 'block';
+})
+
+document.querySelector('#close').addEventListener('click', ()=>{
+    document.querySelector('.add-post').style.display = 'none';
+})
+
+
 
 
 

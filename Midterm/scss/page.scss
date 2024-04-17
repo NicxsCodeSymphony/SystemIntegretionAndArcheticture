@@ -60,11 +60,12 @@
                 @include sizeRatio(13vh, 100%);
                 background-color: $dark-color;
                 border-radius: 10px;
-
+                cursor: pointer;
                 .post-heading{
                     @include display(flex, none, center);
                     @include sizeRatio(8vh, 100%);
                     margin: 0 20px;
+                  
 
                     h4{
                         font-weight: 200;
@@ -91,11 +92,11 @@
             }
 
             .feeds-content{
-                @include sizeRatio(87vh, 100%);
-                background-color: $dark-color;
+                @include sizeRatio(5vh, 100%);
+                // background-color: $dark-color;
                 margin-top: 15px;
                 border-radius: 10px;
-                padding: 30px;
+                // padding: 30px;
 
                 .poster-image{
                     @include display(flex, none, center);
@@ -168,6 +169,12 @@
     }
 }
 
+.post-container{
+    margin-bottom: 20px;
+    background: $dark-color;
+    padding: 20px;
+}
+
 .avatar{
     @include sizeRatio(50px, 50px);
     border: 1px #000 solid;
@@ -186,4 +193,82 @@
         }
         
     }
+}
+
+
+// POST 
+
+.add-post{
+    @include position(fixed, 17%, 50%, -50%, 0);
+    @include sizeRatio(70vh, 40%);
+    background-color: green;
+    border-radius: 15px;
+    font-family: $primary-font;
+    display: none;      
+
+    .post-heading{
+        @include display(flex, center, center);
+        @include sizeRatio(70px, 100%);
+        border-bottom: 1px #c0c0c0 solid;
+        font-size: 12px;    
+        position: relative;
+    
+        #close{
+            position: absolute;
+            right: 20px ;   
+        }
+    }
+
+    .post-images{
+        @include display(flex, none, center);
+        padding: 20px;
+
+        .avatar{
+            @include sizeRatio(60px, 60px);
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .poster-infos{
+
+            .usernames{
+                margin-bottom: 4px;
+                font-size: 13px;
+                color: $darker;
+            }
+        }
+    }
+
+    .input-post{
+        @include sizeRatio(23vh, 100%);
+        padding: 10px 20px;
+        
+
+        textarea{
+            @include sizeRatio(100%, 100%);
+            padding: 10px 20px;
+        }
+    }
+
+    .additional-post{
+        @include sizeRatio(10vh, 93%);
+        @include display(flex, none, center);
+        border: 1px #000 solid;
+        margin: 0 20px;
+        padding: 0 10px;
+        font-size: 15px;
+    }
+
+   .post-btn-container{
+    @include sizeRatio(10vh, 93%);
+    @include display(flex, center, center);
+    margin-left: 20px;
+   
+    button{
+        width: 100%;
+        padding: 10px 0;
+        border-radius: 5px;
+        border: 1px #c0c0c0 solid;
+    }
+}
 }

@@ -21,6 +21,28 @@ $(document).ready(function() {
             alert("Error fetching people data.");
         }
     });
+
+    $.ajax({
+        url: "php/fetchPost.php",
+        type: "GET",
+        success: function(data) {
+            let people = JSON.parse(data);
+            let template = document.querySelector('.poster-template');
+            let container = document.querySelector('.feeds-content');
+    
+            people.forEach(person => {
+                let clone = template.content.cloneNode(true);
+                clone.querySelector('.username').textContent = "@" + person.username;
+                clone.querySelector('.poster-name').textContent = person.name;
+                clone.querySelector('.display-caption').textContent = person.caption;
+    
+                container.appendChild(clone);
+            });
+        },
+        error: function() {
+            alert("Error fetching people data.");
+        }
+    });
     
 
     $("#registrationForm").submit(function(event) {
@@ -190,3 +212,10 @@ function addFriend(personId) {
         }
     });
 }
+
+
+
+// ||||||||||||||||||||||||||||||| POST |||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+

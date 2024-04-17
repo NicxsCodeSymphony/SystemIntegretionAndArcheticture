@@ -35,6 +35,12 @@ $button-color: #273238;
     background-size: cover;
 }
 
+@mixin position($position, $top, $left, $one, $two){
+    position: $position;
+    top: $top;
+    left: $left;
+    transform: translate($one, $two);
+}
 
 
 li{
