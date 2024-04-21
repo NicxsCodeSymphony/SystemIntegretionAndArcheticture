@@ -85,7 +85,7 @@
     <template class="poster-template">
         <div class="post-container">
             <div class="poster-image">
-                <img class="avatar" src="assets/nico.jpg" alt="">
+                <img class="avatar" src="" alt="">
                 <div class="poster-info">
                     <p class="username">@nicxs_assassin</p>
                     <p class="poster-name"><span class="">* 1hr ago</span></p>
@@ -96,7 +96,7 @@
             <div class="interaction"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-comment"></i></div>
             <hr>
             <div class="comment">
-                <img class="avatar"  src="assets/nico.jpg" alt="">
+                <!-- <img style="width: 10%; height: 50%; border-radius: 50%;" id="commentAvatar"  src="" alt=""> -->
                 <input type="text" name="" id="" placeholder="Write your comment . . ." readonly/>
             </div>
         </div>
@@ -109,6 +109,7 @@
     var id = localStorage.getItem("id");
     var name = localStorage.getItem("name");
     var username = localStorage.getItem('username');
+    var image = localStorage.getItem('image');
     if (!name) {    
         window.location.href = "index.html"; 
     } else {
@@ -142,26 +143,27 @@
     document.getElementById("create-post").addEventListener('click', ()=>{
         
         $.ajax({
-        url: "php/post.php",
-        type: "POST",
-        data: {
-            id: id,
-            image: "sample",
-            caption: document.getElementById('get-text').value
-        },
-        success: function(data) {
-            let result = JSON.parse(data);
-            if (result.res === "success") {
-                alert("Post added successfully.");
-                window.location.reload();
-            } else {
-                alert(result.message);
-            }
-        },
-        error: function() {
-            alert("Error adding friend.");
+    url: "php/post.php", 
+    type: "POST",
+    data: {
+        id: id,
+        imagePost: "sample",
+        caption: document.getElementById('get-text').value
+    },
+    success: function(data) {
+        let result = JSON.parse(data);
+        if (result.res === "success") {
+            alert("Post added successfully.");
+            window.location.reload();
+        } else {
+            alert(result.message);
         }
-    });
+    },
+    error: function() {
+        alert("Error adding post.");
+    }
+});
+
 
 
 

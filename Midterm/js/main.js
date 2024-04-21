@@ -12,6 +12,13 @@ $(document).ready(function() {
                 let clone = template.content.cloneNode(true);
                 clone.querySelector('.people-template-name').textContent = person.name;
                 clone.querySelector('.people-template-username').textContent = "@" + person.username;
+    
+                // Set the image source
+                if (person.image) {
+                    clone.querySelector('.people-template-image').setAttribute('src', 'php/' + person.image);
+                    // alert(person.image)
+                }
+    
                 clone.querySelector('.btn button:first-of-type').setAttribute('data-person-id', person.id);
     
                 container.appendChild(clone);
@@ -21,6 +28,7 @@ $(document).ready(function() {
             alert("Error fetching people data.");
         }
     });
+    
 
     $.ajax({
         url: "php/fetchPost.php",
@@ -32,6 +40,7 @@ $(document).ready(function() {
     
             people.forEach(person => {
                 let clone = template.content.cloneNode(true);
+                clone.querySelector('.avatar').src = "php/" + person.image;
                 clone.querySelector('.username').textContent = "@" + person.username;
                 clone.querySelector('.poster-name').textContent = person.name;
                 clone.querySelector('.display-caption').textContent = person.caption;
@@ -101,6 +110,7 @@ $(document).ready(function() {
                           localStorage.setItem("location", result.location);
                           localStorage.setItem("civilStatus", result.civilStatus);
                           localStorage.setItem("birthdate", result.birthdate);
+                          localStorage.setItem("image", result.image)
                         window.location.href = "userPage.html"; 
                     } else {
                         alert(result.message);
@@ -145,20 +155,25 @@ document.querySelector('#editProfile').addEventListener('submit', function(event
     var location = document.getElementById('location').value;
     var civilStatus = document.getElementById('civilStatus').value;
     var birthdate = document.getElementById('birthdate').value;
+    var image = document.getElementById('image').files[0]; 
+
+    var formData = new FormData();
+    formData.append('id', id);
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('name', name);
+    formData.append('gender', gender);
+    formData.append('location', location);
+    formData.append('civilStatus', civilStatus);
+    formData.append('birthdate', birthdate);
+    formData.append('image', image);
 
     $.ajax({
         url: "php/update.php",
         type: "POST",
-        data: {
-            id: id,
-            username: username,
-            password: password,
-            name: name,
-            gender: gender,
-            location: location,
-            civilStatus: civilStatus,
-            birthdate: birthdate
-        },
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function(data) {
             let result = JSON.parse(data);
             if (result.res === "success") {
@@ -169,9 +184,13 @@ document.querySelector('#editProfile').addEventListener('submit', function(event
                 localStorage.setItem("location", location);
                 localStorage.setItem("civilStatus", civilStatus);
                 localStorage.setItem("birthdate", birthdate);
+                if (result.image) {
+                    localStorage.setItem("image", result.image); // Update the image in local storage
+                    document.getElementById("profileImage").setAttribute("src", "php/" + result.image); // Update the profile image
+                }
                 document.getElementById("name").textContent = name.split(" ").slice(0, -1).join(" ");
                 document.getElementById("profile-name").textContent = name;
-                document.getElementById("profile-username").textContent = username;
+                document.getElementById("profile-username").textContent = "@" + username;
                 document.getElementById("profile-gender").textContent = gender;
                 document.getElementById("profile-location").textContent = location;
                 document.getElementById("profile-civil").textContent = civilStatus;
@@ -180,12 +199,10 @@ document.querySelector('#editProfile').addEventListener('submit', function(event
             } else {
                 alert(result.message);
             }
-        },
-        error: function() {
-            alert("Error updating profile.");
-        }
+        },        
     });
 });
+
 
 
 // ADD FRIENDS

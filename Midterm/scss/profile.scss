@@ -128,7 +128,6 @@
    
 
    .profile-image{
-    @include image("../assets/sample.png");
     @include sizeRatio(300px, 300px);
     border: 1px #000 solid;
    margin: 0 auto;

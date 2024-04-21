@@ -20,7 +20,7 @@ while ($friendRow = mysqli_fetch_assoc($friendsResult)) {
 $friendIDsString = implode(',', $friendIDs);
 
 // Get posts of friends with accepted status
-$postsQuery = "SELECT post.*, accounts.username, accounts.name FROM post JOIN accounts ON post.user_id = accounts.id WHERE post.user_id IN ($friendIDsString) ORDER BY post.time DESC";
+$postsQuery = "SELECT post.*, accounts.username, accounts.name, accounts.image FROM post JOIN accounts ON post.user_id = accounts.id WHERE post.user_id IN ($friendIDsString) ORDER BY post.time DESC";
 $postsResult = mysqli_query($conn, $postsQuery);
 
 $posts = array();

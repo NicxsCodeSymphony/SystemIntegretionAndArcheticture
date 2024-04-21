@@ -24,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'gender' => $row['gender'],
                 'location' => $row['location'],
                 'civilStatus' => $row['civilStatus'],
-                'birthdate' => $row['birthdate']
+                'birthdate' => $row['birthdate'],
+                'image' => $row['image']
             ));
             exit;
         } else {

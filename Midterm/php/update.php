@@ -3,22 +3,57 @@ include "connection.php";
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-    $location = mysqli_real_escape_string($conn, $_POST['location']);
-    $civilStatus = mysqli_real_escape_string($conn, $_POST['civilStatus']);
-    $birthdate = mysqli_real_escape_string($conn, $_POST['birthdate']);
-    $id = mysqli_real_escape_string($conn, $_POST['id']);
+    // Sanitize and validate inputs
+    $id = $_POST['id'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $name = $_POST['name'];
+    $gender = $_POST['gender'];
+    $location = $_POST['location'];
+    $civilStatus = $_POST['civilStatus'];
+    $birthdate = $_POST['birthdate'];
 
-    if ($username != "" && $name != "" && $gender != "" && $location != "" && $civilStatus != "" && $birthdate != "" && $password != "") {
-        $query = "UPDATE accounts SET name = '$name', username = '$username', password = '$password', gender = '$gender', location = '$location', civilStatus = '$civilStatus', birthdate = '$birthdate' WHERE id = '$id'";
-        $result = mysqli_query($conn, $query);
+    if ($username && $password && $name && $gender && $location && $civilStatus && $birthdate) {
+        $imagePath = '';
+
+        // Check if a new image was uploaded
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'uploads/';
+            $tempFilePath = $_FILES['image']['tmp_name'];
+            $fileName = uniqid() . '_' . $_FILES['image']['name'];
+            $targetFilePath = $uploadDir . $fileName;
+
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($tempFilePath, $targetFilePath)) {
+                $imagePath = $targetFilePath;
+
+                // Delete the old image file if it exists
+                $query = "SELECT image FROM accounts WHERE id = ?";
+                $statement = $conn->prepare($query);
+                $statement->bind_param("i", $id);
+                $statement->execute();
+                $statement->bind_result($oldImage);
+                $statement->fetch();
+                $statement->close();
+
+                if ($oldImage && file_exists($oldImage)) {
+                    unlink($oldImage);
+                }
+            } else {
+                echo json_encode(array("res" => "error", "message" => "Failed to move uploaded file."));
+                exit;
+            }
+        }
+
+        // Update the profile information in the database
+        $query = "UPDATE accounts SET name = ?, username = ?, password = ?, gender = ?, location = ?, civilStatus = ?, birthdate = ?, image = ? WHERE id = ?";
+        $statement = $conn->prepare($query);
+        $statement->bind_param("ssssssssi", $name, $username, $password, $gender, $location, $civilStatus, $birthdate, $imagePath, $id);
+        $result = $statement->execute();
 
         if ($result) {
             $_SESSION['name'] = $name; 
-            echo json_encode(array("res" => "success", "message" => "Profile updated successfully."));
+            echo json_encode(array("res" => "success", "message" => "Profile updated successfully.", "image" => $imagePath));
             exit;
         } else {
             echo json_encode(array("res" => "error", "message" => "Failed to update profile."));
@@ -29,4 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 }
+?>
+
 ?>

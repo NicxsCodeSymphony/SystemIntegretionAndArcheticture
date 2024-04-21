@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/profile.css">
     <title>Campus Connect</title>
+    <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
 
-   <div class="profile-container">
+<div class="profile-container">
     <div class="profile-header">
         <div class="logo"><h3>Campus <span>Connect</span></h3></div>
         <div class="menu">
@@ -25,79 +24,84 @@
 
     <div class="profile-grid">
         <div class="profile">
-       <div class="profile-image"></div>
-        <div class="profile-info">
-            <h1 id="profile-name"></h1>
-            <h2 id="profile-username"></h2>
-            <button class="profile-edit">Edit Profile</button>
-            <div class="profile-inline">
-                <span>7 followers</span> &#183;
-                <span>8 following</span>
-            </div>
-            
-            <p id="profile-gender"></p>
-            <p id="profile-location"></p>
-            <p id="profile-civil"></p>
-            <p id="profile-birthdate"></p>
-        </div>
-
-        <div class="edit-modal">
-            <div class="profile-image"></div>
+            <div class="profile-image"><img style="height: 100%; width: 100%; border-radius: 50%;" id="profileImage" src="" alt=""></div>
             <div class="profile-info">
-                <form id="editProfile">
-                    <input type="hidden" name="id" id="id">
-                <div class="profile-update"> 
-                    <label for="name">Name:</label><br>
-                    <input type="text" id="fullName" name="name" required><br>
-                  </div>
-                  <div class="profile-update">
-                    <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username" required><br>
-                  </div>
-                  <div class="profile-update">
-                    <label for="password">Password:</label><br>
-                   <input type="password" name="password" id="password" required>
-                  </div>
-                <div class="profile-update">
-                    <label for="gender">Gender</label>
-                    <select name="gender" id="gender">
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                  </div>
+                <h1 id="profile-name"></h1>
+                <h2 id="profile-username"></h2>
+                <button class="profile-edit">Edit Profile</button>
+                <div class="profile-inline">
+                    <span>7 followers</span> &#183;
+                    <span>8 following</span>
+                </div>
 
-                  <div class="profile-update">
-                    <label for="birthdate">Civil Status:</label><br>
-                    <input type="text" name="civilStatus" id="civilStatus">
-                  </div>
-
-                  <div class="profile-update">
-                    <label for="birthdate">Location:</label><br>
-                    <input type="text" name="location" id="location">
-                  </div>
-                  
-
-                  <div class="profile-update">
-                    <label for="birthdate">Birthdate:</label><br>
-                    <input type="date" id="birthdate" name="birthdate">
-                  </div>
-           
-                <button class="profile-edit">Update Profile</button>
+                <p id="profile-gender"></p>
+                <p id="profile-location"></p>
+                <p id="profile-civil"></p>
+                <p id="profile-birthdate"></p>
             </div>
-        </form>
-        <button class="edit-modal-close">Cancel</button>
-        </div>
+
+            <div class="edit-modal">
+                <div class="profile-image"><img style="height: 100%; width: 100%; border-radius: 50%;" id="previewImage" src="" alt=""></div>
+                <div class="profile-info">
+                    <form id="editProfile" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id" id="id">
+                        <div class="profile-update">
+                            <label for="name">Name:</label><br>
+                            <input type="text" id="fullName" name="name" required><br>
+                        </div>
+                        <div class="profile-update">
+                            <label for="username">Username:</label><br>
+                            <input type="text" id="username" name="username" required><br>
+                        </div>
+                        <div class="profile-update">
+                            <label for="password">Password:</label><br>
+                            <input type="password" name="password" id="password" required>
+                        </div>
+                        <div class="profile-update">
+                            <label for="gender">Gender</label>
+                            <select name="gender" id="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="profile-update">
+                            <label for="birthdate">Civil Status:</label><br>
+                            <input type="text" name="civilStatus" id="civilStatus">
+                        </div>
+
+                        <div class="profile-update">
+                            <label for="birthdate">Location:</label><br>
+                            <input type="text" name="location" id="location">
+                        </div>
+
+                        <div class="profile-update">
+                            <label for="birthdate">Birthdate:</label><br>
+                            <input type="date" id="birthdate" name="birthdate">
+                        </div>
+
+                        <div class="profile-update">
+                            <label for="image">Profile Image:</label><br>
+                            <input type="file" id="image" name="image">
+                            <input type="text" id="imagePath" disabled>
+                        </div>
+
+                        <button class="profile-edit">Update Profile</button>
+                    </form>
+                    <button class="edit-modal-close">Cancel</button>
+                </div>
+            </div>
 
         </div>
         <div class="profile-post"></div>
     </div>
 
-   </div>
+</div>
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
-   <script src="js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+<script src="js/main.js"></script>
 
-   <script>
+<script>
     const btnEdit = document.querySelector('.profile-edit');
     const modal = document.querySelector('.edit-modal');
     const btnClose = document.querySelector('.edit-modal-close');
@@ -132,12 +136,39 @@
     document.getElementById("gender").value = localStorage.getItem("gender");
     document.getElementById("location").value = localStorage.getItem("location");
     document.getElementById("birthdate").value = localStorage.getItem("birthdate");
+
+        var profileImage = localStorage.getItem("image");
+        document.getElementById("profileImage").setAttribute("src", "php/" + profileImage);
+        document.getElementById("previewImage").setAttribute("src", "php/" + profileImage);
+        document.getElementById("imagePath").value = profileImage.replace("uploads/", "");
+
+
+});
+
+document.getElementById("image").addEventListener('change', function() {
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("editProfileImage").setAttribute("src", e.target.result);
+        }
+        reader.readAsDataURL(file);
+    } else {
+        var profileImage = localStorage.getItem("image");
+        if (profileImage) {
+            document.getElementById("editProfileImage").setAttribute("src", "php/" + profileImage);
+           
+        }
+    }
 });
 
 
-    
-   </script>
-   
+
+
+
+
+</script>
+
 
 </body>
 </html>
