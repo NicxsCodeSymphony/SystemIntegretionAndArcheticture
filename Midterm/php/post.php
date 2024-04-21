@@ -16,7 +16,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 
-$conn->close();
+$conn->close()
 
 echo json_encode($response);
 ?>

@@ -1,19 +1,34 @@
 <?php
-include "connection.php";
+include 'connection.php';
 session_start();
 
-$loggedInID = $_SESSION['id']; 
-$query = "SELECT post.*, accounts.username, accounts.name FROM post JOIN accounts ON post.user_id = accounts.id";
-$result = mysqli_query($conn, $query);
+$loggedInID = $_SESSION['id'];
 
-$people = array();
+// Get all friends with accepted status
+$friendsQuery = "SELECT * FROM friends WHERE (user_id = $loggedInID OR friend_id = $loggedInID) AND status = 'Accepted'";
+$friendsResult = mysqli_query($conn, $friendsQuery);
 
-if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $people[] = $row;
+$friendIDs = array($loggedInID); // Include the logged-in user's ID
+while ($friendRow = mysqli_fetch_assoc($friendsResult)) {
+    if ($friendRow['user_id'] == $loggedInID) {
+        $friendIDs[] = $friendRow['friend_id'];
+    } else {
+        $friendIDs[] = $friendRow['user_id'];
     }
 }
 
-echo json_encode($people);
+$friendIDsString = implode(',', $friendIDs);
 
+// Get posts of friends with accepted status
+$postsQuery = "SELECT post.*, accounts.username, accounts.name FROM post JOIN accounts ON post.user_id = accounts.id WHERE post.user_id IN ($friendIDsString) ORDER BY post.time DESC";
+$postsResult = mysqli_query($conn, $postsQuery);
+
+$posts = array();
+while ($postRow = mysqli_fetch_assoc($postsResult)) {
+    $posts[] = $postRow;
+}
+
+echo json_encode($posts);
+
+$conn->close();
 ?>
