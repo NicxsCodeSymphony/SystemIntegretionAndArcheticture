@@ -47,6 +47,15 @@ $(document).ready(function() {
                 clone.querySelector('.poster-name').textContent = person.name;
                 clone.querySelector('.display-caption').textContent = person.caption;
     
+                let postImageDiv = clone.querySelector('.post-image');
+                let postImageImg = document.createElement('img');
+                postImageImg.className = 'post-image-img';
+    
+                if (person.imagePost) {
+                    postImageImg.src = "php/" + person.imagePost;
+                    postImageDiv.appendChild(postImageImg);
+                } 
+    
                 container.appendChild(clone);
             });
         },
@@ -54,6 +63,8 @@ $(document).ready(function() {
             alert("Error fetching people data.");
         }
     });
+    
+    
     
 
     $("#registrationForm").submit(function(event) {
@@ -232,9 +243,6 @@ function addFriend(personId) {
     });
 }
 
-
-
-// ||||||||||||||||||||||||||||||| POST |||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
 

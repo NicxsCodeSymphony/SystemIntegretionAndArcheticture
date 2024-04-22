@@ -62,16 +62,19 @@
                 <p class="poster-names"></p>
             </div><br>
         </div>
+        <form enctype="multipart/form-data">
         <div class="input-post">
             <textarea id="get-text" placeholder="What's on your mind?"></textarea>
         </div>
         <div class="additional-post">
             <h3>Add to your post</h3>
+            <input type="file" name="postImage" id="postImage">
         </div>
 
        <div class="post-btn-container">
-        <button id="create-post">Create Post</button>
+        <button type="button" id="create-post">Create Post</button>
        </div>
+    </form>
     </div>
 
     <div style="height: 100vh; width: 100%; position: fixed; top: 0; background: #fff; display: none" class="modal" id="notificationModal">
@@ -94,7 +97,7 @@
                 </div>
             </div>
             <div class="caption"><p class="display-caption"></p></div>
-            <!-- <div class="post-image"><img src="assets/sample.png" alt=""></div> -->
+            <div class="post-image"></div>
             <div class="interaction"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-comment open-comment-modal"></i>
             </i></div>
             <hr>
@@ -116,8 +119,13 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/comments.js"></script>
+    <script src="js/friendRequest.js"></script>
+
+
     <script>
-     $(document).ready(function() {
+        
+$(document).ready(function() {
     var id = localStorage.getItem("id");
     var name = localStorage.getItem("name");
     var username = localStorage.getItem('username');
@@ -133,183 +141,38 @@
 
     }
 
-    
-
-
-    $.ajax({
-        url: "php/fetchFriends.php",
-        type: "GET",
-        success: function(data) {
-            let people = JSON.parse(data);
-            let template = document.querySelector('.friendList');
-            let container = document.querySelector('.friend-section');
-
-            people.forEach(person => {
-                let clone = template.content.cloneNode(true);
-                clone.querySelector('.friendsName').textContent = person.name;
-                container.appendChild(clone);
-            });
-        },
-        error: function() {
-            alert("Error fetching people data.");
-        }
-    });
-
     document.getElementById("create-post").addEventListener('click', ()=>{
-        
-        $.ajax({
-    url: "php/post.php", 
-    type: "POST",
-    data: {
-        id: id,
-        imagePost: "sample",
-        caption: document.getElementById('get-text').value
-    },
-    success: function(data) {
-        let result = JSON.parse(data);
-        if (result.res === "success") {
-            alert("Post added successfully.");
-            window.location.reload();
-        } else {
-            alert(result.message);
-        }
-    },
-    error: function() {
-        alert("Error adding post.");
+    var fileInput = document.getElementById('postImage');
+    var formData = new FormData();
+    formData.append('id', id);
+    formData.append('caption', document.getElementById('get-text').value);
+
+    if (fileInput.files[0]) {
+        formData.append('imagePost', fileInput.files[0]);
+    }else{
+        formData.append('imagePost', " ");
     }
+
+    $.ajax({
+        url: "php/post.php",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            let result = JSON.parse(data);
+            if (result.res === "success") {
+                alert("Post added successfully.");
+                window.location.reload();
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function() {
+            alert("Error adding post.");
+        }
+    });
 });
-
-
-
-
-})
-
-var userId = localStorage.getItem("id");
-
-    // Function to fetch and display friend requests
-    function fetchFriendRequests() {
-    $.ajax({
-        url: "php/friendRequest.php",
-        type: "POST",
-        data: {
-            userId: userId
-        },
-        success: function(data) {
-            let requests = JSON.parse(data);
-            let notificationContainer = document.querySelector('.notification');
-            notificationContainer.innerHTML = '';
-
-            requests.forEach(request => {
-                if (request.status === 'Pending') {
-                    let requestDiv = document.createElement('div');
-                    requestDiv.classList.add('request');
-
-                    let senderId = request.id;
-                    let senderIdD = request.sender_id;
-                    let receiverId = request.receiver_id;
-                    let senderName = request.sender_name;
-
-                    let acceptButton = document.createElement('button');
-                    acceptButton.textContent = 'Accept';
-                    acceptButton.addEventListener('click', function() {
-                        // Handle accepting friend request
-                        acceptFriendRequest(senderId, receiverId,senderIdD);
-                    });
-
-                    let rejectButton = document.createElement('button');
-                    rejectButton.textContent = 'Reject';
-                    rejectButton.addEventListener('click', function() {
-                        // Handle rejecting friend request
-                        rejectFriendRequest(senderId, receiverId);
-                    });
-
-                    requestDiv.textContent = senderName + ' sent you a friend request.';
-                    requestDiv.appendChild(acceptButton);
-                    requestDiv.appendChild(rejectButton);
-
-                    notificationContainer.appendChild(requestDiv);
-                }
-            });
-        },
-        error: function() {
-            alert("Error fetching friend requests.");
-        }
-    });
-}
-
-
-    $('#notification').click(function() {
-        $('#notificationModal').css('display', 'block');
-        fetchFriendRequests();
-        // alert("HELLO WORLD")
-    });
-
-
-
-    // Close the modal when clicking on the close button
-    $('.close').click(function() {
-        $('#notificationModal').css('display', 'none');
-    });
-
-    // Close the modal when clicking outside the modal
-    $(window).click(function(event) {
-        if (event.target.id === 'notificationModal') {
-            $('#notificationModal').css('display', 'none');
-        }
-    });
-
-
-    function acceptFriendRequest(senderId, receiverId, senderIdD) {
-    $.ajax({
-        url: "php/friendReqQuery.php",
-        type: "POST",
-        data: {
-            senderId: senderId,
-            senderIdD: senderIdD,
-            receiverId: receiverId,
-            status: 'Accepted'
-        },
-        success: function(data) {
-            // Handle success response
-            alert("Friend request accepted.");
-            $('#notificationModal').css('display', 'none');
-            window.location.reload();
-        },
-        error: function() {
-            // Handle error response
-            alert("Error accepting friend request.");
-        }
-    });
-}
-
-    function rejectFriendRequest(senderId, receiverId) {
-        $.ajax({
-        url: "php/friendReqQuery.php",
-        type: "POST",
-        data: {
-            senderId: senderId,
-            receiverId: receiverId,
-            status: 'Rejected'
-        },
-        success: function(data) {
-            // Handle success response
-            alert("Friend request rejected.");
-            $('#notificationModal').css('display', 'none');
-            window.location.reload();
-        },
-        error: function() {
-            // Handle error response
-            alert("Error rejecting friend request.");
-        }
-    });
-    }
-
-
-
-// ||||||||||||||||||||||||||| COMMENT ||||||||||||||||||||||||||||||||||
-
-
-
 
 
 });
@@ -317,177 +180,10 @@ var userId = localStorage.getItem("id");
 document.querySelector('.post').addEventListener('click', ()=>{
     document.querySelector('.add-post').style.display = 'block';
 })
-
 document.querySelector('#close').addEventListener('click', ()=>{
     document.querySelector('.add-post').style.display = 'none';
 })
-
-$(document).ready(function() {
-    let commentInput;
-
-    $('.feeds-content').on('click', '#comment-btn', function() {
-        commentInput = $(this).siblings('input[type="text"]');
-        let commentText = commentInput.val().trim();
-        let postId = $(this).closest('.post-container').find('#postId').val();
-        let userId = localStorage.getItem("id");
-        let friendId = $(this).closest('.post-container').find('#userId').val();
-
-        if (commentText !== '') {
-            addComment(userId, friendId, postId, commentText);
-        }
-    });
-
-    // Function to add a comment
-    function addComment(userId, friendId, postId, commentText) {
-        $.ajax({
-            url: "php/addComment.php",
-            type: "POST",
-            data: {
-                user_id: userId,
-                friend_id: friendId,
-                postId: postId,
-                comment: commentText
-            },
-            success: function(data) {
-                let result = JSON.parse(data);
-                if (result.res === "success") {
-                    alert("Comment added successfully.");
-                    // Clear the input field
-                    commentInput.val('');
-                } else {
-                    alert(result.message);
-                }
-            },
-            error: function() {
-                alert("Error adding comment.");
-            }
-        });
-    }
-});
-
-
-$(document).ready(function() {
-    // Open comment modal and fetch comments
-    $('.feeds-content').on('click', '.open-comment-modal', function() {
-        let postId = $(this).closest('.post-container').find('#postId').val();
-        fetchComments(postId);
-        $('#commentModal').css('display', 'block');
-    });
-
-    // Close the comment modal when clicking on the close button
-    $('.close').click(function() {
-        $('#commentModal').css('display', 'none');
-    });
-
-    // Close the comment modal when clicking outside the modal
-    $(window).click(function(event) {
-        if (event.target.id === 'commentModal') {
-            $('#commentModal').css('display', 'none');
-        }
-    });
-
-    // Function to fetch comments for a post
-function fetchComments(postId) {
-    $.ajax({
-        url: "php/fetchComments.php",
-        type: "POST",
-        data: { postId: postId },
-        success: function(data) {
-            let comments = JSON.parse(data);
-            let commentsContainer = $('#commentModal .comments-container');
-            commentsContainer.empty();
-
-            let userId = localStorage.getItem("id");
-
-            comments.forEach(comment => {
-                let commentDiv = document.createElement('div');
-                let commentText = document.createElement('p');
-                commentDiv.innerHTML = `<strong>${comment.userName}</strong>: ${comment.comment}`;
-                commentDiv.appendChild(commentText);
-
-                if (comment.user_id == userId) { // Use '==' for loose comparison
-                    let editBtn = document.createElement('button');
-                    editBtn.textContent = 'Edit';
-                    editBtn.addEventListener('click', function() {
-                        // Create a textarea for editing
-                        let editTextarea = document.createElement('textarea');
-                        editTextarea.value = comment.comment;
-                        commentDiv.replaceChild(editTextarea, commentText);
-
-                        // Create a submit button
-                        let submitBtn = document.createElement('button');
-                        submitBtn.textContent = 'Submit';
-                        submitBtn.addEventListener('click', function() {
-                            let updatedComment = editTextarea.value;
-                            updateComment(comment.id, updatedComment);
-                        });
-                        commentDiv.appendChild(submitBtn);
-
-                        // Remove the edit button
-                        commentDiv.removeChild(editBtn);
-                    });
-                    commentDiv.appendChild(editBtn);
-
-                    let deleteBtn = document.createElement('button');
-                    deleteBtn.textContent = 'Delete';
-                    deleteBtn.addEventListener('click', function() {
-                        // Handle delete comment
-                        deleteComment(comment.id);
-                    });
-                    commentDiv.appendChild(deleteBtn);
-                }
-
-                commentsContainer.append(commentDiv);
-            });
-        },
-        error: function() {
-            alert("Error fetching comments.");
-        }
-    });
-}
-
-    // Function to delete a comment
-    function deleteComment(commentId) {
-        $.ajax({
-            url: "php/deleteComment.php",
-            type: "POST",
-            data: { commentId: commentId },
-            success: function(data) {
-                alert("Comment deleted successfully.");
-                window.location.reload();
-            },
-            error: function() {
-                alert("Error deleting comment.");
-            }
-        });
-    }
-
-    function updateComment(commentId, updatedComment) {
-    $.ajax({
-        url: "php/updateComment.php",
-        type: "POST",
-        data: {
-            commentId: commentId,
-            updatedComment: updatedComment
-        },
-        success: function(data) {
-            alert("Comment updated successfully.");
-            $('#editCommentModal').css('display', 'none');
-            window.location.reload();
-        },
-        error: function() {
-            alert("Error updating comment.");
-        }
-    });
-}
-
-
-
-});
-
-
-
-
     </script>
+
 </body>
 </html>
