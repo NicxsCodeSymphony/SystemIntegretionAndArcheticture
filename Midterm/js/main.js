@@ -40,6 +40,8 @@ $(document).ready(function() {
     
             people.forEach(person => {
                 let clone = template.content.cloneNode(true);
+                clone.querySelector('#userId').value = person.user_id;
+                clone.querySelector('#postId').value = person.id;
                 clone.querySelector('.avatar').src = "php/" + person.image;
                 clone.querySelector('.username').textContent = "@" + person.username;
                 clone.querySelector('.poster-name').textContent = person.name;

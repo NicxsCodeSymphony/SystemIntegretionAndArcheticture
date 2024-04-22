@@ -8,6 +8,7 @@
     .page-header{
         @include sizeRatio(7vh, 100%);
         @include display(flex, space-between, center);
+        gap: 30px;
         background-color: $dark-color;
         padding: 0 16vw;
         font-size: 20px;
@@ -28,8 +29,8 @@
             font-size: 15px;
         
             li{
-                display: inline;
-                margin: 0 50px;
+                display: inline-block;
+                padding: 15px;
 
                 a{
                     color: $text-color;
@@ -41,6 +42,7 @@
             font-size: 15px;
             font-family: $secondary-font;
             text-transform: capitalize;
+            @include display(flex, center, none);
         }
     }
 
@@ -173,6 +175,7 @@
     margin-bottom: 20px;
     background: $dark-color;
     padding: 20px;
+    border-radius: 10px;
 }
 
 .avatar{

@@ -18,10 +18,10 @@
                     <li><a href="profile.html">Profile</a></li>
                     <li><a href="friends.html">Find Friends</a></li>
                     <li style="cursor: pointer;" id="notification">Notification</li>
-                    <li><button id="logout">Logout</button></li>
+                    <li></li>
                 </ul>
             </div>
-            <div class="name"><h3 id="name"></h3></div>
+            <div class="name"><h3 id="name"></h3><button style="margin-left: 10px;" id="logout">Logout</button></div>
         </div>
 
         <div class="content">
@@ -84,11 +84,13 @@
 
     <template class="poster-template">
         <div class="post-container">
+            <input type="hidden" id="userId">
+            <input type="hidden" id="postId">
             <div class="poster-image">
                 <img class="avatar" src="" alt="">
                 <div class="poster-info">
-                    <p class="username">@nicxs_assassin</p>
-                    <p class="poster-name"><span class="">* 1hr ago</span></p>
+                    <p class="username"></p>
+                    <p class="poster-name"><span class=""></span></p>
                 </div>
             </div>
             <div class="caption"><p class="display-caption"></p></div>
@@ -97,7 +99,8 @@
             <hr>
             <div class="comment">
                 <!-- <img style="width: 10%; height: 50%; border-radius: 50%;" id="commentAvatar"  src="" alt=""> -->
-                <input type="text" name="" id="" placeholder="Write your comment . . ." readonly/>
+                <input type="text" name="" id="" placeholder="Write your comment . . ."/>
+                <button id="comment-btn">Send</button>
             </div>
         </div>
     </template>
@@ -120,6 +123,9 @@
         document.querySelector(".usernames").textContent = "@" + username;
 
     }
+
+    
+
 
     $.ajax({
         url: "php/fetchFriends.php",
@@ -291,6 +297,11 @@ var userId = localStorage.getItem("id");
 
 
 
+// ||||||||||||||||||||||||||| COMMENT ||||||||||||||||||||||||||||||||||
+
+
+
+
 
 });
 
@@ -301,6 +312,49 @@ document.querySelector('.post').addEventListener('click', ()=>{
 document.querySelector('#close').addEventListener('click', ()=>{
     document.querySelector('.add-post').style.display = 'none';
 })
+
+$(document).ready(function() {
+    let commentInput;
+
+    $('.feeds-content').on('click', '#comment-btn', function() {
+        commentInput = $(this).siblings('input[type="text"]');
+        let commentText = commentInput.val().trim();
+        let postId = $(this).closest('.post-container').find('#postId').val();
+        let userId = localStorage.getItem("id");
+        let friendId = $(this).closest('.post-container').find('#userId').val();
+
+        if (commentText !== '') {
+            addComment(userId, friendId, postId, commentText);
+        }
+    });
+
+    // Function to add a comment
+    function addComment(userId, friendId, postId, commentText) {
+        $.ajax({
+            url: "php/addComment.php",
+            type: "POST",
+            data: {
+                user_id: userId,
+                friend_id: friendId,
+                postId: postId,
+                comment: commentText
+            },
+            success: function(data) {
+                let result = JSON.parse(data);
+                if (result.res === "success") {
+                    alert("Comment added successfully.");
+                    // Clear the input field
+                    commentInput.val('');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function() {
+                alert("Error adding comment.");
+            }
+        });
+    }
+});
 
 
 
