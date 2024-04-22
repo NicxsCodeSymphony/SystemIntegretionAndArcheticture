@@ -95,7 +95,8 @@
             </div>
             <div class="caption"><p class="display-caption"></p></div>
             <!-- <div class="post-image"><img src="assets/sample.png" alt=""></div> -->
-            <div class="interaction"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-comment"></i></div>
+            <div class="interaction"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-comment open-comment-modal"></i>
+            </i></div>
             <hr>
             <div class="comment">
                 <!-- <img style="width: 10%; height: 50%; border-radius: 50%;" id="commentAvatar"  src="" alt=""> -->
@@ -104,6 +105,14 @@
             </div>
         </div>
     </template>
+
+    <div style="height: 100vh; width: 100%; position: fixed; top: 0; background: #fff; display: none" class="modal" id="commentModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="comments-container"></div>
+        </div>
+    </div>
+    
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <script src="js/main.js"></script>
@@ -357,8 +366,124 @@ $(document).ready(function() {
 });
 
 
+$(document).ready(function() {
+    // Open comment modal and fetch comments
+    $('.feeds-content').on('click', '.open-comment-modal', function() {
+        let postId = $(this).closest('.post-container').find('#postId').val();
+        fetchComments(postId);
+        $('#commentModal').css('display', 'block');
+    });
+
+    // Close the comment modal when clicking on the close button
+    $('.close').click(function() {
+        $('#commentModal').css('display', 'none');
+    });
+
+    // Close the comment modal when clicking outside the modal
+    $(window).click(function(event) {
+        if (event.target.id === 'commentModal') {
+            $('#commentModal').css('display', 'none');
+        }
+    });
+
+    // Function to fetch comments for a post
+function fetchComments(postId) {
+    $.ajax({
+        url: "php/fetchComments.php",
+        type: "POST",
+        data: { postId: postId },
+        success: function(data) {
+            let comments = JSON.parse(data);
+            let commentsContainer = $('#commentModal .comments-container');
+            commentsContainer.empty();
+
+            let userId = localStorage.getItem("id");
+
+            comments.forEach(comment => {
+                let commentDiv = document.createElement('div');
+                let commentText = document.createElement('p');
+                commentDiv.innerHTML = `<strong>${comment.userName}</strong>: ${comment.comment}`;
+                commentDiv.appendChild(commentText);
+
+                if (comment.user_id == userId) { // Use '==' for loose comparison
+                    let editBtn = document.createElement('button');
+                    editBtn.textContent = 'Edit';
+                    editBtn.addEventListener('click', function() {
+                        // Create a textarea for editing
+                        let editTextarea = document.createElement('textarea');
+                        editTextarea.value = comment.comment;
+                        commentDiv.replaceChild(editTextarea, commentText);
+
+                        // Create a submit button
+                        let submitBtn = document.createElement('button');
+                        submitBtn.textContent = 'Submit';
+                        submitBtn.addEventListener('click', function() {
+                            let updatedComment = editTextarea.value;
+                            updateComment(comment.id, updatedComment);
+                        });
+                        commentDiv.appendChild(submitBtn);
+
+                        // Remove the edit button
+                        commentDiv.removeChild(editBtn);
+                    });
+                    commentDiv.appendChild(editBtn);
+
+                    let deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = 'Delete';
+                    deleteBtn.addEventListener('click', function() {
+                        // Handle delete comment
+                        deleteComment(comment.id);
+                    });
+                    commentDiv.appendChild(deleteBtn);
+                }
+
+                commentsContainer.append(commentDiv);
+            });
+        },
+        error: function() {
+            alert("Error fetching comments.");
+        }
+    });
+}
+
+    // Function to delete a comment
+    function deleteComment(commentId) {
+        $.ajax({
+            url: "php/deleteComment.php",
+            type: "POST",
+            data: { commentId: commentId },
+            success: function(data) {
+                alert("Comment deleted successfully.");
+                window.location.reload();
+            },
+            error: function() {
+                alert("Error deleting comment.");
+            }
+        });
+    }
+
+    function updateComment(commentId, updatedComment) {
+    $.ajax({
+        url: "php/updateComment.php",
+        type: "POST",
+        data: {
+            commentId: commentId,
+            updatedComment: updatedComment
+        },
+        success: function(data) {
+            alert("Comment updated successfully.");
+            $('#editCommentModal').css('display', 'none');
+            window.location.reload();
+        },
+        error: function() {
+            alert("Error updating comment.");
+        }
+    });
+}
 
 
+
+});
 
 
 
