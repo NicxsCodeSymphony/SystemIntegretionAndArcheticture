@@ -46,6 +46,8 @@ $(document).ready(function() {
                 clone.querySelector('.username').textContent = "@" + person.username;
                 clone.querySelector('.poster-name').textContent = person.name;
                 clone.querySelector('.display-caption').textContent = person.caption;
+                clone.querySelector('#post-edit').setAttribute('data-edit-id', person.id)
+                clone.querySelector('#post-delete').setAttribute('data-delete-id', person.id)
     
                 let postImageDiv = clone.querySelector('.post-image');
                 let postImageImg = document.createElement('img');
@@ -61,6 +63,29 @@ $(document).ready(function() {
         },
         error: function() {
             alert("Error fetching people data.");
+        }
+    });
+    $(document).on('click', '#post-delete', function() {
+        var postId = $(this).attr('data-delete-id'); 
+
+        if (confirm("Are you sure you want to delete this post?")) {
+            $.ajax({
+                url: "php/deletePost.php",
+                type: "POST",
+                data: { postId: postId }, 
+                success: function(data) {
+                    let result = JSON.parse(data);
+                    if (result.res === "success") {
+                        alert("Post deleted successfully.");
+                        window.location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert("Error deleting post.");
+                }
+            });
         }
     });
     
