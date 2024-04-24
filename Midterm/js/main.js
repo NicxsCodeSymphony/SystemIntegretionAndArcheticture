@@ -54,7 +54,7 @@ $(document).ready(function() {
         success: function(data) {
             let people = JSON.parse(data);
             let template = document.querySelector('.poster-template');
-            let container = document.querySelector('.feeds-content');
+            let container = document.querySelector('.feeds');
 
             people.forEach(person => {
                 let clone = template.content.cloneNode(true);
@@ -101,7 +101,6 @@ $(document).on('click', '#post-delete', function() {
             success: function(data) {
                 let result = JSON.parse(data);
                 if (result.res === "success") {
-                    alert("Post deleted successfully.");
                    window.location.reload();
                 } else {
                     alert(result.message);
@@ -175,7 +174,7 @@ $(document).on('click', '#post-delete', function() {
                           localStorage.setItem("civilStatus", result.civilStatus);
                           localStorage.setItem("birthdate", result.birthdate);
                           localStorage.setItem("image", result.image)
-                        window.location.href = "userPage.html"; 
+                        window.location.href = "feeds.html"; 
                     } else {
                         alert(result.message);
                     }

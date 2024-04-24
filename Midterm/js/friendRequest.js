@@ -1,5 +1,9 @@
 var userId = localStorage.getItem("id");
 
+document.getElementById('find-friend').addEventListener('click', () => {
+    window.location.href = 'friends.html';
+})
+
 function fetchFriendRequests() {
     $.ajax({
         url: "php/friendRequest.php",

@@ -10,9 +10,12 @@ $title-font: 'Pacifico';
 
 $light-color: #fafffb;
 $dark-color: #e5feee;
-$darker: #79a185;
-$text-color: #0b161b;
+$darker: #17181c;
+$dark-container: #1e1f24;
+$border-color: #26282d;
+$text-color: #a4a6aa;
 $light-text-color: #9c9e9d;
+$title-color: #317aca;
 $button-color: #273238;
 
 @mixin display($display, $justify, $align){
@@ -49,4 +52,8 @@ li{
 
 a{
     text-decoration: none;
+}
+
+*{
+    padding: 0; margin:0; box-sizing: border-box;
 }

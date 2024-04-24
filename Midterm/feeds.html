@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect</title>
+    <link rel="stylesheet" href="css/feeds.css">
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="left-section">
+            <div class="social-media-logo"><h2>Campus Connect</h2></div>
+            <div class="navbar">
+                <input class="search" placeholder="Explore Campus Connect" type="text">
+                <ul>
+                    <li>Home</li>
+                    <li>Community</li>
+                    <li>Marketplace</li>
+                    <li id="find-friend">Find Friends</li>
+                    <li>News Feeds</li>
+                </ul>
+            </div>
+            <button id="logout">Logout</button>
+        </div>
+
+
+        <div class="feeds-section">
+            <div class="heading">
+                <div class="home-nav">
+                    <p>HOME</p>
+                    <div class="post-selection">
+                        <ul>
+                            <li>Explore</li>
+                            <li>Profile Feed</li>
+                            <li>Mutual Friends</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="profile-nav">
+                    <i class='bx bxs-bell bell' id="notification"></i>
+                    <div class="name">
+                        <h4 id="anotherName"></h4>
+                        <img id="name-avatar" src="" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="feeds-content">
+                <div class="feeds">
+                    <div class="posting-section">
+                        <form enctype="multipart/form-data">
+                        <div class="write-post">
+                            <img id="poster-image" src="" alt="">
+                            <textarea placeholder="What's on your mind?" name="" id="get-text" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="attach-image">
+                            <input type="file" id="postImage" name="postImage">
+                            <button id="create-post" type="button">Post</button>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div class="feeds">
+                        
+                    </div>
+
+                </div>
+                
+                <div class="profile-section">
+                    <div class="profile-link">
+
+                        <img id="profile-image" src="" alt="">
+                        <p id="fullname"></p>
+                        <p id="following">123 followers <span>123 following</span></p>
+                        <button id="see-profile" type="button">See Profile</button>
+                    </div>
+
+                    <div class="friends-list">
+                        <h4>My  Friends</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ||||||||||||||||||||||||||||||||||| TEMPLATE SECTION |||||||||||||||||||||||||||||||||||||| -->
+
+    <template class="poster-template">
+        <div class="post-container">
+            <input type="hidden" id="userId">
+            <input type="hidden" id="postId">
+            <div class="poster-image">
+                <img class="avatar" src="" alt="">
+                <div class="poster-info">
+                    <p class="username" style="display: none;"></p>
+                    <p class="poster-name"><span class=""></span></p>
+                </div>
+                <div style="float: right;" class="btn-container">
+                    <button id="post-edit">Edit</button>
+                <button id="post-delete">Delete</button>
+                </div>
+            </div>
+            <div class="caption"><p class="display-caption"></p></div>
+            <div class="post-image"></div>
+            
+            <!-- open-comment-modal -->
+            <div class="comment">
+              
+                <div class="inline-comment">
+                    <span>Like Post</span>
+                    <span>Comment</span>
+                    <span>Share</span>
+                </div>
+
+                <!-- <img style="width: 10%; height: 50%; border-radius: 50%;" id="commentAvatar"  src="" alt=""> -->
+                <br>
+                <input class="comment-input" type="text" name="" id="" placeholder="Write your comment . . ."/>
+                <button id="comment-btn">Add</button>
+            </div>
+            <p style="padding: 20px; text-align: center; border-top: #26282d solid 1px; font-size: 12px;" class="open-comment-modal">View all comments</p>
+        </div>
+    </template>
+
+    <!-- |||||||||||||||||||||||||||||||||||||| MODAL ||||||||||||||||||||||||||||||||||||||||||||| -->
+
+    <div  style="height: 10vh; width: 20%; position: fixed; top: 100px; right: 50px; background: #3b3b3b; display: none; color: #fff;" class="modal" id="notificationModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="notification"></div>
+        </div>
+    </div>
+
+    <div style="height: 60vh; width: 60%; position: fixed; top: 20%; left: 50%; transform: translate(-50%, 0); background: #fff; display: none" class="modal" id="commentModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="comments-container"></div>
+        </div>
+    </div>
+    
+    
+
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/createPost.js"></script>
+    <script src="js/friendRequest.js"></script>
+    <script src="js/comments.js"></script>
+
+    
+
+</body>
+</html>
