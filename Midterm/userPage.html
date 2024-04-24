@@ -54,9 +54,9 @@
         <div class="post-heading">
             <h1>Create Post</h1>
             <button id="close">X</button>
-        </div>
+        </div>  
         <div class="post-images">
-            <img class="avatar" src="assets/nico.jpg" alt="">
+            <img class="avatar post-avatar" src="" alt="">
             <div class="poster-infos">
                 <p class="usernames"></p>
                 <p class="poster-names"></p>
@@ -67,7 +67,7 @@
             <textarea id="get-text" placeholder="What's on your mind?"></textarea>
         </div>
         <div class="additional-post">
-            <h3>Add to your post</h3>
+            <h3>Add Image (optional)</h3>
             <input type="file" name="postImage" id="postImage">
         </div>
 
@@ -139,6 +139,7 @@ $(document).ready(function() {
         document.getElementById("name").textContent = firstName;
         document.getElementById("anotherName").textContent = firstName;
         document.querySelector(".poster-names").textContent = name;
+        document.querySelector(".post-avatar").src = "php/" + image;
         document.querySelector(".usernames").textContent = "@" + username;
 
     }
@@ -185,6 +186,23 @@ document.querySelector('.post').addEventListener('click', ()=>{
 document.querySelector('#close').addEventListener('click', ()=>{
     document.querySelector('.add-post').style.display = 'none';
 })
+
+$(document).on('click', '#post-edit', function() {
+    var postId = $(this).closest('.post-container').find('#postId').val();
+    var userId = $(this).closest('.post-container').find('#userId').val();
+    var caption = $(this).closest('.post-container').find('.display-caption').text();
+    // var imageSrc = $(this).closest('.post-container').find('.post-image').css('background-image');
+
+    // Store data in localStorage to access it in the edit form
+    localStorage.setItem('editPostId', postId);
+    localStorage.setItem('editUserId', userId);
+    localStorage.setItem('editCaption', caption);
+    // localStorage.setItem('editImageSrc', imageSrc);
+
+    // Open the edit form in another file
+    window.location.href = 'editPost.html';
+});
+
 
     </script>
 

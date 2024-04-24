@@ -28,8 +28,26 @@ $(document).ready(function() {
             alert("Error fetching people data.");
         }
     });
-    
 
+    var loggedInUserId = localStorage.getItem("id"); // Get the ID of the logged-in user
+
+    // Function to check if the logged-in user is the poster
+    function isPoster(userId) {
+        return userId === loggedInUserId;
+    }
+
+    // Function to show or hide edit and delete buttons based on whether the logged-in user is the poster
+    function toggleEditDeleteButtons(element, userId) {
+        if (isPoster(userId)) {
+            element.find('#post-edit').show(); // Show the edit button
+            element.find('#post-delete').show(); // Show the delete button
+        } else {
+            element.find('#post-edit').hide(); // Hide the edit button
+            element.find('#post-delete').hide(); // Hide the delete button
+        }
+    }
+
+    // Fetch posts and display them
     $.ajax({
         url: "php/fetchPost.php",
         type: "GET",
@@ -37,7 +55,7 @@ $(document).ready(function() {
             let people = JSON.parse(data);
             let template = document.querySelector('.poster-template');
             let container = document.querySelector('.feeds-content');
-    
+
             people.forEach(person => {
                 let clone = template.content.cloneNode(true);
                 clone.querySelector('#userId').value = person.user_id;
@@ -46,18 +64,19 @@ $(document).ready(function() {
                 clone.querySelector('.username').textContent = "@" + person.username;
                 clone.querySelector('.poster-name').textContent = person.name;
                 clone.querySelector('.display-caption').textContent = person.caption;
-                clone.querySelector('#post-edit').setAttribute('data-edit-id', person.id)
-                clone.querySelector('#post-delete').setAttribute('data-delete-id', person.id)
-    
+
                 let postImageDiv = clone.querySelector('.post-image');
                 let postImageImg = document.createElement('img');
                 postImageImg.className = 'post-image-img';
-    
+
                 if (person.imagePost) {
                     postImageImg.src = "php/" + person.imagePost;
                     postImageDiv.appendChild(postImageImg);
-                } 
-    
+                }
+
+                // Show or hide edit and delete buttons
+                toggleEditDeleteButtons($(clone), person.user_id);
+
                 container.appendChild(clone);
             });
         },
@@ -65,29 +84,36 @@ $(document).ready(function() {
             alert("Error fetching people data.");
         }
     });
-    $(document).on('click', '#post-delete', function() {
-        var postId = $(this).attr('data-delete-id'); 
 
-        if (confirm("Are you sure you want to delete this post?")) {
-            $.ajax({
-                url: "php/deletePost.php",
-                type: "POST",
-                data: { postId: postId }, 
-                success: function(data) {
-                    let result = JSON.parse(data);
-                    if (result.res === "success") {
-                        alert("Post deleted successfully.");
-                        window.location.reload();
-                    } else {
-                        alert(result.message);
-                    }
-                },
-                error: function() {
-                    alert("Error deleting post.");
+
+
+    // jQuery code for handling post deletion
+$(document).on('click', '#post-delete', function() {
+    var postId = $(this).closest('.post-container').find('#postId').val();
+
+    // Confirm deletion
+    if (confirm("Are you sure you want to delete this post?")) {
+        // Send delete request to server
+        $.ajax({
+            url: "php/deletePost.php",
+            type: "POST",
+            data: { postId: postId },
+            success: function(data) {
+                let result = JSON.parse(data);
+                if (result.res === "success") {
+                    alert("Post deleted successfully.");
+                   window.location.reload();
+                } else {
+                    alert(result.message);
                 }
-            });
-        }
-    });
+            },
+            error: function() {
+                alert("Error deleting post.");
+            }
+        });
+    }
+});
+
     
     
     
