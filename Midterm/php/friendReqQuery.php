@@ -6,7 +6,7 @@ $receiverId = $_POST['receiverId'];
 $status = $_POST['status'];
 $senderIdD = $_POST['senderIdD'];
 
-$updateQuery = "UPDATE friend_request SET status = '$status' WHERE id = $senderId";
+$updateQuery = "DELETE FROM friend_request  WHERE id = $senderId";
 
 if ($conn->query($updateQuery) === TRUE) {
     // Update successful, insert into friends table

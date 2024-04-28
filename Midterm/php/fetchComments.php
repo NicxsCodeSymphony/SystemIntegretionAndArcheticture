@@ -5,7 +5,7 @@ $postId = $_POST['postId'];
 
 $sql = "SELECT c.*, u.name AS userName FROM comments c
         JOIN accounts u ON c.user_id = u.id
-        WHERE c.postId = '$postId'";
+        WHERE c.postId = '$postId' ORDER BY c.time DESC";
 $result = $conn->query($sql);
 
 $comments = [];

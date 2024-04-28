@@ -144,6 +144,7 @@
                         background: transparent;
                         padding: 10px;
                         color: #fff;
+                        font-family: $primary-font;
                     }
                   }
 
@@ -171,13 +172,13 @@
             right: 0;
 
             .profile-link{
-                @include sizeRatio(26.5vh, 100%);
+                @include sizeRatio(30vh, 100%);
                 border: 1px $border-color solid;
                 border-radius: 10px;
                 color: $text-color;
 
                 img{
-                    @include sizeRatio(130px, 100%);
+                    @include sizeRatio(150px, 100%);
                     border-radius: 10px 10px 0 0;
                 }
 
@@ -254,6 +255,13 @@
         .btn-container{
             position: absolute;
             right: 20px;
+
+            button{
+                background: transparent;
+                color: $text-color;
+                border: none;
+                margin-right: 10px;
+            }
         }
     }
 
@@ -302,6 +310,74 @@
     }
 }
 
+.close{
+    position: absolute;
+    top: 0;
+    left: 20px;
+    font-size: 20px;
+
+}
+
+.comment-h1{
+    position: absolute;
+    top: 30px;
+}
+
+.comment-modal-container{
+    position: relative;
+    @include sizeRatio(80vh, 60%);
+    color: #fff;
+    font-family: $primary-font;
+    position: fixed; top: 10%; left: 50%; transform: translate(-50%, 0); background: $darker; display: none;
+    z-index: 99999;
+    padding: 100px 50px;
+    border: $text-color solid 1px;
+    border-radius: 10px;
+    overflow: auto;
+
+    h1{
+        margin-bottom: 20px;
+    }
+
+    .comment-container{
+        @include sizeRatio(80px, 100%);
+        border: 1px #000 solid;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        button{
+            background: transparent;
+            color: $text-color;
+            border: none;
+            margin-right: 20px;
+        }
+    }
+}
+
+
+.notification-modal{
+    height: 10vh; width: 20%; position: fixed; top: 100px; right: 50px; background: #3b3b3b; display: none; color: #fff;
+    font-family: $primary-font;
+    font-size: 15px;
+    padding: 10px;
+    padding-top: 20px;
+    
+    button{
+        background: transparent;
+        color: #fff;
+        border: none;
+        margin-right: 5px;
+    }
+}
+
+button{
+    cursor: pointer;
+}
+
+li{
+    cursor: pointer;
+}
+
 a{
     color: $light-color ;
 }
@@ -309,3 +385,4 @@ a{
 a:visited{
     color: $light-color;
 }
+

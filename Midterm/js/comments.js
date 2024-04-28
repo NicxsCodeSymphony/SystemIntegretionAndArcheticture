@@ -77,12 +77,14 @@ function fetchComments(postId) {
 
             comments.forEach(comment => {
                 let commentDiv = document.createElement('div');
+                commentDiv.classList.add("comment-container");
                 let commentText = document.createElement('p');
                 commentDiv.innerHTML = `<strong>${comment.userName}</strong>: ${comment.comment}`;
                 commentDiv.appendChild(commentText);
 
                 if (comment.user_id == userId) { // Use '==' for loose comparison
                     let editBtn = document.createElement('button');
+                    editBtn.classList.add("comment-edit");
                     editBtn.textContent = 'Edit';
                     editBtn.addEventListener('click', function() {
                         // Create a textarea for editing

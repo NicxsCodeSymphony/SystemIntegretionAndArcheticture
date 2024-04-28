@@ -14,7 +14,7 @@
             <div class="navbar">
                 <input class="search" placeholder="Explore Campus Connect" type="text">
                 <ul>
-                    <li>Home</li>
+                    <li class="goHome">Home</li>
                     <li>Community</li>
                     <li>Marketplace</li>
                     <li>Find Friends</li>
@@ -120,6 +120,11 @@
         document.getElementById("name-avatar").src = "php/" + image;
         document.getElementById("poster-image").src = "php/" + image;
 });
+document.querySelector('.goHome').addEventListener("click", () => {
+    window.location.href = "feeds.html";
+})
+
+
 
 
     </script>

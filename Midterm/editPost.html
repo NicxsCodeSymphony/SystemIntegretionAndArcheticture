@@ -4,20 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Post</title>
-    <!-- Include any necessary CSS files -->
+    <link rel="stylesheet" href="css/editPost.css">
 </head>
 <body>
 
-    <h1>Edit Post</h1>
-
     <div class="post-container">
+        <span class="close">&times;</span>
+        <h1>Edit Post</h1>
         <input type="hidden" id="postId">
         <input type="hidden" id="userId">
+        <h4>Caption</h4>
         <div class="caption">
             <textarea id="edit-caption" placeholder="Edit caption"></textarea>
         </div>
         <div class="post-image">
-            <label for="edit-image">Edit Image</label>
+            <label for="edit-image">Edit Image</label> <br>
             <input type="file" id="edit-image">
             <img style="display: none;" id="preview-image" src="" alt="Preview Image">
         </div>
@@ -62,6 +63,10 @@
                 }
             });
         });
+
+        document.querySelector(".close").addEventListener('click', () => {
+           window.location.href  = "feeds.html";
+        })
     </script>
 
 </body>

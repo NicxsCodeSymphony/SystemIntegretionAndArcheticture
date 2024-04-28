@@ -1,6 +1,6 @@
 $(document).ready(function() {
     document.getElementById('create-post').addEventListener('click', () => {
-        var fileInput = document.getElementById('postImage');
+    var fileInput = document.getElementById('postImage');
     var formData = new FormData();
     formData.append('id', id);
     formData.append('caption', document.getElementById('get-text').value);

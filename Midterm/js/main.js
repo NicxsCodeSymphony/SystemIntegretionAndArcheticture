@@ -55,7 +55,7 @@ $(document).ready(function() {
             let people = JSON.parse(data);
             let template = document.querySelector('.poster-template');
             let container = document.querySelector('.feeds');
-
+    
             people.forEach(person => {
                 let clone = template.content.cloneNode(true);
                 clone.querySelector('#userId').value = person.user_id;
@@ -64,19 +64,27 @@ $(document).ready(function() {
                 clone.querySelector('.username').textContent = "@" + person.username;
                 clone.querySelector('.poster-name').textContent = person.name;
                 clone.querySelector('.display-caption').textContent = person.caption;
-
+                clone.querySelector('.poster-time').textContent = timeAgo(person.time);
+    
                 let postImageDiv = clone.querySelector('.post-image');
-                let postImageImg = document.createElement('img');
-                postImageImg.className = 'post-image-img';
-
+    
                 if (person.imagePost) {
+                    let postImageImg = document.createElement('img');
+                    postImageImg.className = 'post-image-img';
                     postImageImg.src = "php/" + person.imagePost;
+                
+                    // Add onerror event handler
+                    postImageImg.onerror = function() {
+                        this.style.display = 'none'; 
+                    };
+                
                     postImageDiv.appendChild(postImageImg);
                 }
-
+                
+    
                 // Show or hide edit and delete buttons
                 toggleEditDeleteButtons($(clone), person.user_id);
-
+    
                 container.appendChild(clone);
             });
         },
@@ -84,6 +92,7 @@ $(document).ready(function() {
             alert("Error fetching people data.");
         }
     });
+    
 
 
 
@@ -295,4 +304,28 @@ function addFriend(personId) {
 
 
 
+function timeAgo(timestamp) {
+    const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
+    let interval = Math.floor(seconds / 31536000);
 
+    if (interval >= 1) {
+        return interval + (interval === 1 ? " year ago" : " years ago");
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+        return interval + (interval === 1 ? " month ago" : " months ago");
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+        return interval + (interval === 1 ? " day ago" : " days ago");
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+        return interval + (interval === 1 ? " hour ago" : " hours ago");
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+        return interval + (interval === 1 ? " minute ago" : " minutes ago");
+    }
+    return Math.floor(seconds) + " seconds ago";
+}
